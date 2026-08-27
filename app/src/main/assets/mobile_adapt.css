@@ -74,3 +74,111 @@
     display: none !important;
   }
 }
+
+/* ==================== v2.4: 新版页面布局修复 ====================
+   血泪教训：子串选择器 [class*="VOzbGW_nav"] 会误伤 navIcon/navCell/navList
+   （svg 图标被灌入 width:100% 渲染成 144×129 巨型图标）。
+   本段设置区选择器一律使用 [class~="xxx"] 全词匹配。 */
+
+/* ---- 工作区抽屉：展开态改为覆盖式抽屉，主界面永不挤压 ---- */
+
+/* 主网格：侧栏轨道恒定 56px，主列吃满剩余宽度 */
+body [class*="pI_x6G_frame"] {
+  grid-template-columns: 56px minmax(0, 1fr) 0px !important;
+}
+
+/* 侧栏展开态（无 collapsed 类）：脱离文档流，滑出为覆盖抽屉 */
+body [class*="hHd-Xa_root"]:not([class*="hHd-Xa_collapsed"]) {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: min(84vw, 320px) !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  z-index: 60 !important;
+  box-shadow: 16px 0 48px rgba(15, 23, 42, 0.18) !important;
+}
+
+/* 抽屉打开时点击关闭层上遮罩色（:has 判定打开态，关闭态零影响） */
+body [class*="pI_x6G_frame"]:has([class*="hHd-Xa_root"]:not([class*="hHd-Xa_collapsed"]))
+  [class*="pI_x6G_overlayLayer"] {
+  background: rgba(14, 18, 32, 0.32) !important;
+}
+
+/* ---- 设置弹窗：全屏 sheet + 导航横排 ---- */
+
+body [class~="VOzbGW_overlay"] {
+  padding: 0 !important;
+}
+
+body [class~="VOzbGW_panel"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  flex-direction: column !important;
+  border-radius: 0 !important;
+}
+
+body [class~="VOzbGW_nav"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+  height: auto !important;
+  padding: 10px 16px 6px !important;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent) !important;
+}
+
+body [class~="VOzbGW_navList"] {
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  height: auto !important;
+  gap: 2px !important;
+  row-gap: 4px !important;
+  overflow-x: visible !important;
+  overflow-y: hidden !important;
+  padding: 2px 0 !important;
+  scrollbar-width: none !important;
+}
+
+body [class~="VOzbGW_navList"]::-webkit-scrollbar {
+  display: none !important;
+}
+
+body [class~="VOzbGW_navCell"] {
+  flex: none !important;
+  width: auto !important;
+  height: 34px !important;
+  padding: 0 12px !important;
+  border-radius: 10px !important;
+}
+
+/* 图标保险：nav 内 svg 图标锁定 16×16，防任何宽高规则误伤 */
+body svg[class~="VOzbGW_navIcon"] {
+  width: 16px !important;
+  height: 16px !important;
+  flex: none !important;
+}
+
+/* 触屏去气泡：页面自实现的 role=tooltip 气泡在 tap 后常驻并遮挡输入框
+   （如「折叠侧边栏」盖住路径输入框），触屏上隐藏之；title 气泡已由注入 JS 根治 */
+body [role="tooltip"] {
+  display: none !important;
+}
+
+body [class~="VOzbGW_content"] {
+  flex: 1 1 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+}
+
+body [class~="VOzbGW_options"] {
+  flex: 1 !important;
+  min-height: 0 !important;
+  padding: 4px 16px 16px !important;
+}
+
+body [class*="_WvWnq_section"] {
+  max-width: 100% !important;
+}

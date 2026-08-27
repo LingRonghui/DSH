@@ -133,6 +133,23 @@ private const val UUID_POLYFILL_JS =
         ".replace(/[018]/g,function(c){var r=window.crypto.getRandomValues(new Uint8Array(1))[0];" +
         "return((+c)^(r&15>>(c/4))).toString(16);});};}catch(e){}}"
 
+// 触屏去气泡：①原生 title 气泡点击后常驻遮挡输入框 → title 转移到 aria-label 后移除；
+// ②页面自实现的 role=tooltip 气泡由 mobile_adapt.css 隐藏。
+// 必须在 onPageFinished 注入：onPageStarted 时新 document 可能未就绪，observe 会抛错
+private const val TOOLTIP_CLEANUP_JS =
+    "(function(){try{" +
+        "if(window.__dshTipGuard)return;" +
+        "window.__dshTipGuard=true;" +
+        "var f=function(root){var t=root.hasAttribute&&root.hasAttribute('title')?[root]:[];" +
+        "if(root.querySelectorAll)root.querySelectorAll('[title]').forEach(function(el){t.push(el);});" +
+        "t.forEach(function(el){" +
+        "if(!el.getAttribute('aria-label'))el.setAttribute('aria-label',el.getAttribute('title'));" +
+        "el.removeAttribute('title');});};" +
+        "f(document);" +
+        "new MutationObserver(function(ms){ms.forEach(function(m){f(m.target);});})" +
+        ".observe(document.documentElement," +
+        "{childList:true,subtree:true,attributes:true,attributeFilter:['title']});}catch(e){}})();"
+
 private const val ADAPT_CSS_ASSET = "mobile_adapt.css"
 private const val ADAPT_STYLE_ID = "dsh-mobile-adapt"
 
@@ -604,6 +621,8 @@ private fun WebScreen(url: String, onExit: () -> Unit) {
                                     loadAdaptCss(ctx)?.let { css ->
                                         wv.evaluateJavascript(adaptInjectJs(css), null)
                                     }
+                                    // document 就绪后注入，onPageStarted 时机可能未就绪导致 observer 建立失败
+                                    wv.evaluateJavascript(TOOLTIP_CLEANUP_JS, null)
                                 }
                             }
 
