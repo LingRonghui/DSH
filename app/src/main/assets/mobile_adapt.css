@@ -182,3 +182,34 @@ body [class~="VOzbGW_options"] {
 body [class*="_WvWnq_section"] {
   max-width: 100% !important;
 }
+
+/* ==================== v2.5: 插件市场遮挡修复 + 主页质感底色 ==================== */
+
+/* ---- 修复：插件市场被工作区抽屉遮挡 ----
+   实证：插件市场模态 _LI32q_backdrop(fixed, z=100) 挂在 pI_x6G_overlayLayer
+   (absolute, z=20) 内部 —— overlayLayer 的 z=20 构成层叠上下文，模态的 z=100
+   只在层内生效；而抽屉被我们抬到 z=60，60>20 导致抽屉压住模态。
+   方案：检测到任何 *_backdrop 模态挂载时，把 overlayLayer 整层提到抽屉(z=60)
+   之上，模态自然全屏覆盖；模态关闭后规则自动失效，抽屉恢复原层级。 */
+body [class*="pI_x6G_overlayLayer"]:has([class*="_backdrop"]) {
+  z-index: 70 !important;
+}
+
+/* ---- 主页面质感底色：冰雾蓝渐变（仅浅色模式，避免覆盖页面自身暗色主题） ----
+   v2.6：实测 pI_x6G_frame（全屏骨架）与 nArs4W_pane（主内容区）自带不透明白底，
+   会整层盖住 body 渐变；浅色模式下改为透明让渐变透出，文字仍为深色、对比度不受影响。 */
+@media (prefers-color-scheme: light) {
+  html {
+    background: #f7f9fe !important;
+  }
+
+  body {
+    background: linear-gradient(180deg, #f7f9fe 0%, #f2f5fc 55%, #ecf1fa 100%) !important;
+    background-attachment: fixed !important;
+  }
+
+  body [class*="pI_x6G_frame"],
+  body [class*="nArs4W_pane"] {
+    background-color: transparent !important;
+  }
+}

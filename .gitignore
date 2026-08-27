@@ -9,3 +9,10 @@ build/
 androidx/
 *.log
 *.bak
+captures/
+*.apk
+*.aab
+/*.png
+/*.xml
+/*.txt
+*.hprof
