@@ -1,0 +1,76 @@
+@media (max-width: 640px) {
+  :root {
+    --dsh-chat-content-width: 100% !important;
+  }
+
+  body [class*="_card"] {
+    max-width: 100% !important;
+  }
+
+  body [class*="_hero"] {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  body [class*="heroWorkspaceRow"] {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  body [class*="_body"] {
+    padding: 8px 12px !important;
+  }
+
+  body [class*="_turnBoundary"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* ---- v2: 对话态挤压修正 ---- */
+
+  /* 顶栏 padding 收窄（默认 12px 28px 0 20px） */
+  body [class*="wSkVaW_header"] {
+    padding: 8px 12px 0 12px !important;
+  }
+
+  /* 隐藏 actions 槽内 agent preset 徽标（SVAs4q_label 最宽 180px 不可收缩，手机端纯展示无交互价值；
+     别名/复制ID 均为 button 不受影响） */
+  body [class*="SVAs4q_label"] {
+    display: none !important;
+  }
+
+  /* tabs：36px 间距压缩，放不下时横向滚动；tab 文字禁止逐字换行 */
+  body [class*="wSkVaW_tabs"] {
+    gap: 14px !important;
+    overflow-x: auto !important;
+  }
+
+  body [class*="wSkVaW_tab"] {
+    white-space: nowrap !important;
+    flex: none !important;
+  }
+
+  /* composer 模型选择器：限宽触发 label 自带 ellipsis（doubao-seed-2-1-pro → 截断） */
+  body [class*="_7KE1Ra_root"] {
+    max-width: 150px !important;
+  }
+
+  body [class*="_7KE1Ra_trigger"] {
+    max-width: 150px !important;
+  }
+
+  /* composer 底行允许换行：实测内容总宽 ~418px > 行宽 262px（360 视口），
+     不换行时 trailing 物理压住「+」按钮；换行后 add/模型/发送 流式排布 */
+  body [class*="uV2eYG_row"] {
+    flex-wrap: wrap !important;
+    row-gap: 4px !important;
+  }
+
+  /* 隐藏「复制会话ID」低频按钮（92px，headerActions flex:none 不可收缩，
+     溢出 56px 压到右上角 Session log 胶囊）。
+     注意：me-alias-wrap 壳内的「✎ 别名」按钮复用同类名，必须限定
+     actions 槽直接子元素，只命中复制ID、保留别名 */
+  body [data-slot="conversation.session.header.actions"] > button[class*="me-copy-session-id"] {
+    display: none !important;
+  }
+}
