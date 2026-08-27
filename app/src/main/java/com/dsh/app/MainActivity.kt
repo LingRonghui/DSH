@@ -135,8 +135,8 @@ private val AbyssTop = Color(0xFF070B16)
 private val AbyssBottom = Color(0xFF111A36)
 private val MistTop = Color(0xFFF7F9FF)
 private val MistBottom = Color(0xFFECF1FB)
-private val WebTop = Color(0xFFDBE5F4)
-private val WebTint = Color(0xFFDBE5F4)
+private val WebTop = Color(0xFFE4E9F1)
+private val WebTint = Color(0xFFD4DCE8)
 
 @Composable
 private fun Modifier.dshEnter(visible: Boolean): Modifier {
@@ -808,7 +808,7 @@ private fun WebScreen(url: String, onExit: () -> Unit) {
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
                         )
-                        setBackgroundColor(0xFFDBE5F4.toInt())
+                        setBackgroundColor(0xFFD4DCE8.toInt())
                         settings.javaScriptEnabled = true
                         settings.domStorageEnabled = true
                         settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE

@@ -195,16 +195,18 @@ body [class*="pI_x6G_overlayLayer"]:has([class*="_backdrop"]) {
   z-index: 70 !important;
 }
 
-/* ---- 主页面质感底色：冰雾蓝渐变（仅浅色模式，避免覆盖页面自身暗色主题） ----
-   v2.6：实测 pI_x6G_frame（全屏骨架）与 nArs4W_pane（主内容区）自带不透明白底，
-   会整层盖住 body 渐变；浅色模式下改为透明让渐变透出，文字仍为深色、对比度不受影响。 */
+/* ---- 主页面质感底色：雾蓝灰渐变（仅浅色模式，避免覆盖页面自身暗色主题） ----
+   v2.6：实测 pI_x6G_frame / nArs4W_pane / wSkVaW_root 多层自带不透明白底，
+   会整层盖住 body 渐变；浅色模式下改为透明让渐变透出。
+   v2.7：降饱和调优 — 饱和蓝与白色输入卡片/浅灰侧栏打架显生硬，
+   改为雾蓝灰（slate）基调：深度保留、蓝色饱和度减半，浅色组件成为画布上的有意浮层。 */
 @media (prefers-color-scheme: light) {
   html {
-    background: #dbe5f4 !important;
+    background: #e4e9f1 !important;
   }
 
   body {
-    background: linear-gradient(180deg, #dbe5f4 0%, #c9d8ee 55%, #b3c9e6 100%) !important;
+    background: linear-gradient(180deg, #e4e9f1 0%, #d4dce8 55%, #c0cbdb 100%) !important;
     background-attachment: fixed !important;
   }
 
