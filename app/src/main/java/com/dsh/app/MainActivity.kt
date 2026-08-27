@@ -298,6 +298,39 @@ private const val UUID_POLYFILL_JS =
         ".replace(/[018]/g,function(c){var r=window.crypto.getRandomValues(new Uint8Array(1))[0];" +
         "return((+c)^(r&15>>(c/4))).toString(16);});};}catch(e){}}"
 
+private const val HASOWN_POLYFILL_JS =
+    "if(!Object.hasOwn){Object.hasOwn=function(o,p){" +
+        "return o!=null&&Object.prototype.hasOwnProperty.call(o,p);};}"
+
+private const val AT_POLYFILL_JS =
+    "if(!Array.prototype.at){Array.prototype.at=function(n){n=Math.trunc(n)||0;" +
+        "if(n<0)n+=this.length;return n>=0&&n<this.length?this[n]:void 0;};}" +
+        "if(!String.prototype.at){String.prototype.at=function(n){n=Math.trunc(n)||0;" +
+        "if(n<0)n+=this.length;return n>=0&&n<this.length?this[n]:void 0;};}"
+
+private const val ABORT_POLYFILL_JS =
+    "if(!AbortSignal.timeout){AbortSignal.timeout=function(ms){" +
+        "var c=new AbortController();setTimeout(function(){c.abort();},Math.max(0,Number(ms)||0));return c.signal;};}" +
+    "if(!AbortSignal.any){AbortSignal.any=function(list){" +
+        "var c=new AbortController(),arr=Array.prototype.slice.call(list),i;" +
+        "for(i=0;i<arr.length;i++){if(arr[i].aborted){c.abort();return c.signal;}}" +
+        "for(i=0;i<arr.length;i++){(function(s){s.addEventListener('abort',function(){c.abort();},{once:true});})(arr[i]);}" +
+        "return c.signal;};}"
+
+private const val STRUCTUREDCLONE_POLYFILL_JS =
+    "if(typeof structuredClone==='undefined'){window.structuredClone=function(v){" +
+        "return v==null?v:JSON.parse(JSON.stringify(v));};}"
+
+private const val FINDLAST_POLYFILL_JS =
+    "if(!Array.prototype.findLast){Object.defineProperty(Array.prototype,'findLast',{value:function(fn){" +
+        "var o=Object(this),n=o.length>>>0,i,v;for(i=n-1;i>=0;i--){v=o[i];if(fn(v,i,o))return v;}}});}" +
+    "if(!Array.prototype.findLastIndex){Object.defineProperty(Array.prototype,'findLastIndex',{value:function(fn){" +
+        "var o=Object(this),n=o.length>>>0,i;for(i=n-1;i>=0;i--){if(fn(o[i],i,o))return i;}}});}"
+
+private const val COMPAT_POLYFILL_JS =
+    UUID_POLYFILL_JS + HASOWN_POLYFILL_JS + AT_POLYFILL_JS +
+    ABORT_POLYFILL_JS + STRUCTUREDCLONE_POLYFILL_JS + FINDLAST_POLYFILL_JS
+
 // 触屏去气泡：①原生 title 气泡点击后常驻遮挡输入框 → title 转移到 aria-label 后移除；
 // ②页面自实现的 role=tooltip 气泡由 mobile_adapt.css 隐藏。
 // 必须在 onPageFinished 注入：onPageStarted 时新 document 可能未就绪，observe 会抛错
@@ -872,7 +905,7 @@ private fun WebScreen(url: String, onExit: () -> Unit) {
                             ) {
                                 loadingActive = true
                                 frameError = null
-                                evaluateJavascript(UUID_POLYFILL_JS, null)
+                                evaluateJavascript(COMPAT_POLYFILL_JS, null)
                             }
 
                             override fun onPageFinished(view: WebView?, u: String?) {
