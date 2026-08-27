@@ -808,7 +808,7 @@ private fun WebScreen(url: String, onExit: () -> Unit) {
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
                         )
-                        setBackgroundColor(0xFFEEF3FB.toInt())
+                        setBackgroundColor(0xFFDBE5F4.toInt())
                         settings.javaScriptEnabled = true
                         settings.domStorageEnabled = true
                         settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE

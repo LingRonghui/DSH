@@ -200,11 +200,11 @@ body [class*="pI_x6G_overlayLayer"]:has([class*="_backdrop"]) {
    会整层盖住 body 渐变；浅色模式下改为透明让渐变透出，文字仍为深色、对比度不受影响。 */
 @media (prefers-color-scheme: light) {
   html {
-    background: #eef3fb !important;
+    background: #dbe5f4 !important;
   }
 
   body {
-    background: linear-gradient(180deg, #eef3fb 0%, #e4ecf8 55%, #d9e5f4 100%) !important;
+    background: linear-gradient(180deg, #dbe5f4 0%, #c9d8ee 55%, #b3c9e6 100%) !important;
     background-attachment: fixed !important;
   }
 
