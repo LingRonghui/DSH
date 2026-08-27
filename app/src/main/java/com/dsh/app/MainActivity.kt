@@ -135,8 +135,8 @@ private val AbyssTop = Color(0xFF070B16)
 private val AbyssBottom = Color(0xFF111A36)
 private val MistTop = Color(0xFFF7F9FF)
 private val MistBottom = Color(0xFFECF1FB)
-private val WebTop = Color(0xFFF7F9FE)
-private val WebTint = Color(0xFFF5F8FE)
+private val WebTop = Color(0xFFDBE5F4)
+private val WebTint = Color(0xFFDBE5F4)
 
 @Composable
 private fun Modifier.dshEnter(visible: Boolean): Modifier {

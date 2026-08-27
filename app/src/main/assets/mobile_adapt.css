@@ -209,7 +209,8 @@ body [class*="pI_x6G_overlayLayer"]:has([class*="_backdrop"]) {
   }
 
   body [class*="pI_x6G_frame"],
-  body [class*="nArs4W_pane"] {
+  body [class*="nArs4W_pane"],
+  body [class*="wSkVaW_root"] {
     background-color: transparent !important;
   }
 }
